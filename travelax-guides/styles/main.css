@@ -1,61 +1,146 @@
-/* 1. CSS Reset                         */
-/* Reset to remove default browser margins and make box-sizing consistent */
+/* -------------------------------------------------------------------------- */
+/* 1. CSS Reset/Normalize                                                     */
+/* -------------------------------------------------------------------------- */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-/* 2. Google Fonts                               */
-/* Import fonts from Google Fonts - Montserrat */
+/* -------------------------------------------------------------------------- */
+/* 2. Google Fonts                                                            */
+/* -------------------------------------------------------------------------- */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
 
 
-/* 3. Global Styles                             */
+/* -------------------------------------------------------------------------- */
+/* 3. Global Styles                                                           */
+/* -------------------------------------------------------------------------- */
 body {
-    font-family: 'Open Sans', sans-serif; /* Default font for the whole body */
-    line-height: 1.6;                     /* Good readability for paragraphs */
-    color: #333333;                       /* Dark grey for text */
-    background-color: #f8f9fa;            /* Light grey/off-white background */
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.6;
+    color: #333333;
+    background-color: #f8f9fa;
 }
 
-/* Utility container class for centering content */
 .container {
-    max-width: 1100px; /* Maximum width for our content */
-    margin: 0 auto;    /* Centers the container horizontally */
-    padding: 0 15px;   /* Small padding on sides for smaller screens */
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 15px;
 }
 
-/* Headings */
 h1, h2, h3 {
     font-family: 'Montserrat', sans-serif;
-    color: #34495e; /* Darker blue-grey for headings */
-    margin-bottom: 15px; /* Space below headings */
+    color: #34495e;
+    margin-bottom: 15px;
     line-height: 1.2;
 }
 
-h1 { font-size: 2.5em; /* Larger for main page title */ }
-h2 { font-size: 2em;   /* Section titles */ }
-h3 { font-size: 1.5em; /* Card titles */ }
+h1 { font-size: 2.5em; }
+h2 { font-size: 2em;   }
+h3 { font-size: 1.5em; }
 
-/* Paragraphs */
 p {
-    margin-bottom: 1em; /* Space below paragraphs */
+    margin-bottom: 1em;
 }
 
-/* Links */
 a {
-    color: #3498db;          /* Travel-friendly blue for links */
-    text-decoration: none;   /* Remove default underline */
+    color: #3498db;
+    text-decoration: none;
 }
 
-a:hover {
-    text-decoration: underline; /* Underline on hover for feedback */
+a:hover { 
+    text-decoration: underline;
 }
 
-/* Images */
 img {
-    max-width: 100%; /* Ensures images don't overflow their containers */
-    height: auto;    /* Maintains aspect ratio */
-    display: block;  /* Removes extra space below images */
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* 4. Header & Navigation Specific Styles (FIXED FOR BOOTSTRAP)               */
+/* -------------------------------------------------------------------------- */
+/* Use .navbar class to style the header appearance */
+.navbar {
+    padding: 20px 0; /* Restore desired header padding */
+    border-bottom: 1px solid #eeeeee;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Style the site title (navbar-brand) */
+.navbar-brand {
+    color: #34495e !important;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.8em;
+}
+
+/* Base style for nav links (to override default link color) */
+.navbar-nav .nav-link {
+    color: #555555 !important; 
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+/* THE HOVER FIX: Use the specific Bootstrap classes with !important */
+.navbar-nav .nav-link:hover, 
+.navbar-nav .nav-link:focus { /* Add :focus for accessibility */
+    color: #3498db !important; /* This WILL force the blue color */
+    text-decoration: none;
+    background-color: transparent !important; /* Prevent Bootstrap from adding a background change */
+}
+
+/* -------------------------------------------------------------------------- */
+/* 5. Hero Section Styles                                                     */
+/* -------------------------------------------------------------------------- */
+.hero {
+    position: relative;
+    text-align: center;
+    color: white;       
+    padding: 50px 0;    
+    background: url('../images/placeholder.png') no-repeat center center/cover; 
+    min-height: 400px;  
+    display: flex;      
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px; 
+}
+
+.hero h2 {
+    font-size: 3.5em; 
+    color: white;     
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7); 
+}
+
+.hero p {
+    font-size: 1.5em; 
+    color: white;     
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+}
+
+.hero .hero-image {
+    display: none; 
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* 6. Footer Styles                                                           */
+/* -------------------------------------------------------------------------- */
+footer {
+    background-color: #34495e; 
+    color: #ecf0f1;           
+    padding: 30px 0;          
+    text-align: center;
+    margin-top: 50px;         
+}
+
+footer p {
+    margin-bottom: 0;         
+    font-size: 0.9em;         
 }

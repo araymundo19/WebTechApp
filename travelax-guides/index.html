@@ -24,12 +24,19 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="index.html">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="ph.html">PH Destinations</a>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="destinationsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Destinations
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="destinationsDropdown">
+                            <li><a class="dropdown-item" href="ph.html">🇵🇭 PH Destinations</a></li>
+                            <li><a class="dropdown-item" href="asia.html">🌏 Asia Destinations</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">View All Guides</a></li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="asia.html">Asia Destinations</a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="gentips.html">General Travel Tips</a>
                     </li>
@@ -54,7 +61,11 @@
                 </button>
             </section>
 
-            <section class="destinations-ph my-5"> <h2 class="text-center mb-4">Explore Philippine Gems</h2> <div class="row"> <div class="col-lg-4 col-md-6 mb-4"> <div class="card h-100"> <img src="images/placeholder.png" class="card-img-top" alt="El Nido, Palawan">
+            <section class="destinations-ph my-5">
+                <h2 class="text-center mb-4">Explore Philippine Gems</h2>
+                <div class="row"> <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <img src="images/placeholder.png" class="card-img-top" alt="El Nido, Palawan">
                             <div class="card-body">
                                 <h3 class="card-title">Palawan</h3>
                                 <p class="card-text">Known for its stunning lagoons and pristine beaches.</p>
@@ -62,6 +73,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="card h-100">
                             <img src="images/placeholder.png" class="card-img-top" alt="White Beach, Boracay">
@@ -72,6 +84,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="card h-100">
                             <img src="images/placeholder.png" class="card-img-top" alt="Cebu City skyline">
@@ -82,13 +95,12 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </div> </section>
 
             <section class="destinations-asia my-5">
                 <h2 class="text-center mb-4">Asia & Beyond</h2>
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 mb-4"> <div class="card h-100">
+                <div class="row"> <div class="col-lg-6 col-md-6 mb-4">
+                        <div class="card h-100">
                             <img src="images/placeholder.png" class="card-img-top" alt="Mount Fuji, Japan">
                             <div class="card-body">
                                 <h3 class="card-title">Japan</h3>
@@ -107,8 +119,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </div> </section>
         </div>
     </main>
 

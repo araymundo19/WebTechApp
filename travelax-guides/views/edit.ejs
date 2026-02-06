@@ -1,0 +1,35 @@
+<%- include('partials/header') %>
+<%- include('partials/nav') %>
+
+<div class="container my-5">
+    <h2>Edit: <%= place.name %></h2>
+    <form action="/destinations/update/<%= place._id %>" method="POST" class="col-md-6 border p-4 bg-white shadow-sm">
+        <div class="mb-3">
+            <label class="form-label">Destination Name</label>
+            <input type="text" name="name" class="form-control" value="<%= place.name %>" required>
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Region</label>
+            <select name="region" class="form-select">
+                <option value="Philippines" <%= place.region === 'Philippines' ? 'selected' : '' %>>Philippines</option>
+                <option value="Asia" <%= place.region === 'Asia' ? 'selected' : '' %>>Asia</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control" rows="3"><%= place.description %></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Image Filename</label>
+            <input type="text" name="image" class="form-control" value="<%= place.image %>">
+        </div>
+
+        <button type="submit" class="btn btn-primary text-white">Update Destination</button>
+        <a href="/" class="btn btn-link text-secondary">Cancel</a>
+    </form>
+</div>
+
+<%- include('partials/footer') %>

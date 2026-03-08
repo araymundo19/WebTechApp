@@ -1,0 +1,64 @@
+<%- include('partials/header') %>
+<%- include('partials/nav') %>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">Home</a></li>
+                    <li class="breadcrumb-item active text-primary fw-bold"><%= place.region %></li>
+                </ol>
+            </nav>
+
+            <h1 class="display-4 fw-bold mb-2"><%= place.name %></h1>
+            
+            <div class="mb-4">
+                <span class="badge bg-dark px-3 py-2 me-2"><%= place.region %></span>
+                <% if(place.countries && place.countries.length > 0) { %>
+                    <% place.countries.forEach(country => { %>
+                        <span class="badge rounded-pill bg-light text-dark border me-1"><%= country %></span>
+                    <% }) %>
+                <% } %>
+            </div>
+
+            <img src="<%= place.image && place.image.trim() !== '' ? place.image : '/images/placeholder.png' %>" 
+                 class="img-fluid rounded-4 shadow-sm mb-4 w-100" 
+                 style="max-height: 500px; object-fit: cover;">
+
+            <div class="bg-white p-4 rounded-4 shadow-sm border">
+                <h4 class="fw-bold mb-3 border-bottom pb-2">Plan Overview</h4>
+                <p class="lead text-muted" style="white-space: pre-line;"><%= place.description %></p>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden mb-4">
+                <div class="card-header bg-primary text-white py-3 border-0">
+                    <h5 class="mb-0 fw-bold text-center"><i class="bi bi-lightning-charge-fill me-2"></i>Smart Insights</h5>
+                </div>
+                <div class="card-body p-4 bg-primary text-white text-center">
+                    <% if (weather && weather.main) { %>
+                        <img src="http://openweathermap.org/img/wn/<%= weather.weather[0].icon %>@2x.png" width="80">
+                        <h2 class="display-5 fw-bold mb-0"><%= Math.round(weather.main.temp) %>°C</h2>
+                        <p class="text-capitalize opacity-75 mb-3"><%= weather.weather[0].description %></p>
+                    <% } else { %>
+                        <p class="small mb-3 italic text-white-50">Weather data unavailable</p>
+                    <% } %>
+                    <hr class="opacity-25">
+                    <p class="mb-1 small opacity-75 text-uppercase fw-bold">Est. Budget</p>
+                    <h3 class="fw-bold">₱<%= (place.budget || 0).toLocaleString() %></h3>
+                </div>
+            </div>
+
+            <div class="d-grid gap-2 p-3 bg-light rounded-4 border">
+                <a href="/destinations/edit/<%= place._id %>" class="btn btn-outline-secondary">Edit This Plan</a>
+                <form action="/destinations/delete/<%= place._id %>" method="POST" class="d-grid">
+                    <button class="btn btn-outline-danger" onclick="return confirm('Delete this plan permanently?')">Delete Plan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

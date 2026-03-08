@@ -2,34 +2,54 @@
 <%- include('partials/nav') %>
 
 <div class="container my-5">
-    <h2>Edit: <%= place.name %></h2>
-    <form action="/destinations/update/<%= place._id %>" method="POST" class="col-md-6 border p-4 bg-white shadow-sm">
-        <div class="mb-3">
-            <label class="form-label">Destination Name</label>
-            <input type="text" name="name" class="form-control" value="<%= place.name %>" required>
-        </div>
-        
-        <div class="mb-3">
-            <label class="form-label">Region</label>
-            <select name="region" class="form-select">
-                <option value="Philippines" <%= place.region === 'Philippines' ? 'selected' : '' %>>Philippines</option>
-                <option value="Asia" <%= place.region === 'Asia' ? 'selected' : '' %>>Asia</option>
-            </select>
-        </div>
+    <div class="col-md-8 mx-auto">
+        <h2 class="fw-bold mb-4">Edit Your Trip Plan</h2>
+        <form action="/destinations/update/<%= place._id %>" method="POST" class="p-4 border rounded-4 bg-white shadow-sm">
+            
+            <div class="mb-3">
+                <label class="form-label fw-bold">Trip Name</label>
+                <input type="text" name="name" class="form-control" value="<%= place.name %>" required>
+            </div>
 
-        <div class="mb-3">
-            <label class="form-label">Description</label>
-            <textarea name="description" class="form-control" rows="3"><%= place.description %></textarea>
-        </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Region</label>
+                    <select name="region" class="form-select">
+                        <option value="South East Asia" <%= place.region === 'South East Asia' ? 'selected' : '' %>>South East Asia</option>
+                        <option value="Middle-East" <%= place.region === 'Middle-East' ? 'selected' : '' %>>Middle-East</option>
+                        <option value="East Asia" <%= place.region === 'East Asia' ? 'selected' : '' %>>East Asia</option>
+                        <option value="Europe" <%= place.region === 'Europe' ? 'selected' : '' %>>Europe</option>
+                        <option value="North America" <%= place.region === 'North America' ? 'selected' : '' %>>North America</option>
+                        <option value="South America" <%= place.region === 'South America' ? 'selected' : '' %>>South America</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Countries</label>
+                    <input type="text" name="countries" class="form-control" value="<%= place.countries ? place.countries.join(', ') : '' %>">
+                </div>
+            </div>
 
-        <div class="mb-3">
-            <label class="form-label">Image Filename</label>
-            <input type="text" name="image" class="form-control" value="<%= place.image %>">
-        </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Image URL</label>
+                <input type="text" name="image" class="form-control" value="<%= place.image %>">
+            </div>
 
-        <button type="submit" class="btn btn-primary text-white">Update Destination</button>
-        <a href="/" class="btn btn-link text-secondary">Cancel</a>
-    </form>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Description</label>
+                <textarea name="description" class="form-control" rows="5"><%= place.description %></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Budget (PHP)</label>
+                <input type="number" name="budget" class="form-control" value="<%= place.budget %>">
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary px-5">Save Changes</button>
+                <a href="/destinations/<%= place._id %>" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
 </div>
 
 <%- include('partials/footer') %>

@@ -1,80 +1,110 @@
 <%- include('partials/header') %>
 <%- include('partials/nav') %>
 
-<section class="hero">
-    <h2>Your Journey Starts Here</h2>
-    <p>Discover amazing destinations in the Philippines and across Asia.</p>
-    <button type="button" class="btn btn-primary btn-lg mt-3" data-bs-toggle="modal" data-bs-target="#welcomeModal">
-        Start Exploring!
-    </button>
-</section>
-
-<main class="container">
-    <section class="destinations-ph my-5">
-        <h2 class="text-center mb-4">Explore Philippine Gems</h2>
+<div class="container my-5">
+    
+    <div class="mb-5">
+        <div class="d-flex align-items-center mb-3">
+            <h2 class="fw-bold mb-0">Expert Travel Guides</h2>
+            <span class="badge bg-primary ms-3">Admin Verified</span>
+        </div>
+        <p class="text-muted border-bottom pb-3">Hand-picked destinations by our travel experts.</p>
+        
         <div class="row">
-            <% const phDestinations = places.filter(p => p.region === 'Philippines'); %>
-            
-            <% if (phDestinations.length > 0) { %>
-                <% phDestinations.forEach(place => { %>
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100 shadow-sm">
-                            <img src="<%= place.image ? '/images/' + place.image : '/images/placeholder.png' %>" 
-                             class="card-img-top" 
-                             style="height: 200px; object-fit: cover;" 
-                             alt="<%= place.name %>"
-                             onerror="this.src='/images/placeholder.png';">
+            <% const guides = places.filter(p => p.type === 'guide'); %>
+            <% if(guides.length > 0) { %>
+                <% guides.forEach(place => { %>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow-sm border-0">
+                            <div class="position-relative">
+                                <img src="<%= place.image && place.image.trim() !== '' ? place.image : '/images/placeholder.png' %>" 
+                                     class="card-img-top" style="height:220px; object-fit:cover;" alt="<%= place.name %>">
+                                <span class="badge bg-dark position-absolute top-0 start-0 m-3 shadow-sm">
+                                    <%= place.region %>
+                                </span>
+                            </div>
                             <div class="card-body">
-                                <h3 class="card-title h5"><%= place.name %></h3>
-                                <p class="card-text text-muted"><%= place.description %></p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <a href="#" class="btn btn-primary btn-sm">Discover</a>
-                                    <a href="/destinations/edit/<%= place._id %>" class="btn btn-outline-primary btn-sm">Edit</a>
-                                    <form action="/destinations/delete/<%= place._id %>" method="POST">
-                                        <button class="btn btn-outline-danger btn-sm">Delete</button>
-                                    </form>
+                                <h5 class="card-title fw-bold"><%= place.name %></h5>
+                                
+                                <div class="mb-2">
+                                    <% if(place.countries && place.countries.length > 0) { %>
+                                        <% place.countries.forEach(country => { %>
+                                            <span class="badge rounded-pill bg-light text-dark border small"><%= country %></span>
+                                        <% }) %>
+                                    <% } %>
+                                </div>
+
+                                <p class="card-text text-muted small"><%= place.description.substring(0, 90) %>...</p>
+                                <a href="/destinations/<%= place._id %>" class="btn btn-outline-primary btn-sm w-100 mt-2">Explore Guide</a>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p class="text-muted italic">No expert guides available yet.</p>
+            <% } %>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <div>
+        <div class="d-flex justify-content-between align-items-end mb-4 bg-light p-4 rounded-3 border shadow-sm">
+            <div>
+                <h2 class="fw-bold mb-1">Public Itineraries</h2>
+                <p class="text-muted mb-0">Smarter trip plans shared by the community.</p>
+            </div>
+            <a href="/add" class="btn btn-primary px-4 py-2 shadow-sm">
+                <i class="bi bi-plus-circle me-2"></i>Start Planning
+            </a>
+        </div>
+
+        <div class="row">
+            <% const publicItinerary = places.filter(p => p.type === 'itinerary' && p.visibility === 'public'); %>
+            <% if(publicItinerary.length > 0) { %>
+                <% publicItinerary.forEach(plan => { %>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="position-relative">
+                                <img src="<%= plan.image && plan.image.trim() !== '' ? plan.image : '/images/placeholder.png' %>" 
+                                     class="card-img-top" style="height:200px; object-fit:cover;" alt="<%= plan.name %>">
+                                <span class="badge bg-success position-absolute top-0 start-0 m-3 shadow-sm">
+                                    <%= plan.region %>
+                                </span>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title fw-bold"><%= plan.name %></h5>
+                                
+                                <div class="mb-3">
+                                    <% if(plan.countries && plan.countries.length > 0) { %>
+                                        <% plan.countries.forEach(country => { %>
+                                            <span class="badge rounded-pill bg-light text-dark border small"><%= country %></span>
+                                        <% }) %>
+                                    <% } %>
+                                </div>
+
+                                <p class="card-text text-muted small flex-grow-1"><%= plan.description %></p>
+                                
+                                <div class="mt-3 pt-3 border-top d-flex justify-content-between align-items-center">
+                                    <a href="/destinations/<%= plan._id %>" class="btn btn-sm btn-link p-0 text-decoration-none fw-bold text-success">View Details</a>
+                                    <div class="btn-group">
+                                        <a href="/destinations/edit/<%= plan._id %>" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                        <form action="/destinations/delete/<%= plan._id %>" method="POST" class="d-inline">
+                                            <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this plan?')">Delete</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 <% }) %>
             <% } else { %>
-                <p class="text-center">No Philippine destinations added yet.</p>
+                <div class="col-12 text-center py-5 bg-light rounded border-dashed">
+                    <p class="text-muted mb-0">No public plans yet. Be the first to share one!</p>
+                </div>
             <% } %>
         </div>
-    </section>
-
-    <hr>
-
-    <section class="destinations-asia my-5">
-        <h2 class="text-center mb-4">Asia & Beyond</h2>
-        <div class="row">
-            <% const asiaDestinations = places.filter(p => p.region === 'Asia'); %>
-            
-            <% if (asiaDestinations.length > 0) { %>
-                <% asiaDestinations.forEach(place => { %>
-                    <div class="col-lg-6 col-md-6 mb-4"> <div class="card h-100 shadow-sm">
-                        <img src="<%= place.image ? '/images/' + place.image : '/images/placeholder.png' %>" 
-                         class="card-img-top" 
-                         style="height: 200px; object-fit: cover;" 
-                         alt="<%= place.name %>"
-                         onerror="this.src='/images/placeholder.png';">
-                            <div class="card-body">
-                                <h3 class="card-title h5 text-primary"><%= place.name %></h3>
-                                <p class="card-text"><%= place.description %></p>
-                                <a href="/destinations/edit/<%= place._id %>" class="btn btn-outline-primary btn-sm">Edit</a>
-                                <form action="/destinations/delete/<%= place._id %>" method="POST">
-                                    <button class="btn btn-outline-danger btn-sm">Delete</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                <% }) %>
-            <% } else { %>
-                <p class="text-center">No Asian destinations added yet.</p>
-            <% } %>
-        </div>
-    </section>
-</main>
+    </div>
+</div>
 
 <%- include('partials/footer') %>

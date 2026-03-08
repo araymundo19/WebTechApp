@@ -1,15 +1,35 @@
 const mongoose = require('mongoose');
 
-// SCHEMA FOR DESTINATIONS
-
 const destinationSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    region: { type: String, required: true }, // PH or Asia
+    region: { 
+        type: String, 
+        enum: ['South East Asia', 'Middle-East', 'East Asia', 'South America', 'North America', 'Europe', 'Africa', 'Oceania'],
+        required: true },
+
+    countries: [String],    
     description: String,
-    image: String, // Path to image like "/images/cebu.jpg"
-    featured: Boolean
+    image: { type: String, default: "/images/placeholder.png" },
+    
+    // UPDATED SCEHMA FIELDS
+    type: { 
+        type: String, 
+        enum: ['guide', 'itinerary'], 
+        default: 'itinerary' 
+    },
+    authorRole: { 
+        type: String, 
+        enum: ['admin', 'user'], 
+        default: 'user' 
+    },
+    visibility: { 
+        type: String, 
+        enum: ['public', 'private'], 
+        default: 'public' 
+    },
+    
+    budget: { type: Number, default: 0 },
+    createdAt: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model('Destination', destinationSchema);
-
-// ^^ ABOVE CODE FOR MONGOOSE MODEL, NOT USED IN APP.JS YET. THIS IS FOR FUTURE USE WHEN WE ADD DB FUNCTIONALITY TO OUR APP. ^^

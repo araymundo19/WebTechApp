@@ -3,7 +3,7 @@
 
 <main class="container my-5">
     <h2>Add a New Destination</h2>
-    <form action="/destinations" method="POST" class="p-4 border rounded bg-white shadow-sm">
+    <form action="/destinations" method="POST" enctype="multipart/form-data" class="p-4 border rounded bg-white shadow-sm">
     
     <div class="mb-3">
         <label class="form-label fw-bold">Post Type</label>
@@ -33,53 +33,52 @@
     </div>
     
     <div class="mb-3">
-    <label class="form-label fw-bold">Region</label>
-    <select name="region" class="form-select" required>
-        <option value="South East Asia">South East Asia</option>
-        <option value="Middle-East">Middle-East</option>
-        <option value="East Asia">East Asia</option>
-        <option value="Europe">Europe</option>
-        <option value="North America">North America</option>
-        <option value="South America">South America</option>
-    </select>
-</div>
-
-<div class="mb-3">
-    <label class="form-label fw-bold">Countries</label>
-    <input type="text" name="countries" class="form-control" placeholder="e.g. Philippines, Vietnam, Thailand">
-    <small class="text-muted">Type the countries included in this plan.  (separate with commas)</small>
-</div>
-
-<div class="mb-3">
-    <label class="form-label fw-bold">Image URL (Optional)</label>
-    <input type="text" name="image" class="form-control" placeholder="e.g. https://example.com/image.jpg">
-    <small class="text-muted">Max Image Size: 5MB (not implemented yet)</small>
-</div>
+        <label class="form-label fw-bold">Region</label>
+        <select name="region" class="form-select" required>
+            <option value="South East Asia">South East Asia</option>
+            <option value="Middle-East">Middle-East</option>
+            <option value="East Asia">East Asia</option>
+            <option value="Europe">Europe</option>
+            <option value="North America">North America</option>
+            <option value="South America">South America</option>
+        </select>
+    </div>
 
     <div class="mb-3">
-    <label class="form-label">Description</label>
-    <textarea name="description" class="form-control" rows="3" placeholder="Tell us about your trip..."></textarea>
-</div>
+        <label class="form-label fw-bold">Countries</label>
+        <input type="text" name="countries" class="form-control" placeholder="e.g. Philippines, Vietnam, Thailand">
+        <small class="text-muted">Type the countries included in this plan. (separate with commas)</small>
+    </div>
 
+    <div class="mb-3">
+        <label class="form-label fw-bold">Upload Trip Photo</label>
+        <input type="file" name="imageFile" class="form-control" accept="image/*">
+        <small class="text-muted">Max Image Size: 5MB (.JPG, .PNG, .JPEG only)</small>
+    </div>
 
-<div id="budgetField" class="mb-3" style="display:none;">
-    <label class="form-label">Estimated Budget (PHP)</label>
-    <input type="number" name="budget" class="form-control" placeholder="0">
-</div>
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea name="description" class="form-control" rows="3" placeholder="Tell us about your trip..."></textarea>
+    </div>
+
+    <div id="budgetField" class="mb-3" style="display:none;">
+        <label class="form-label">Estimated Budget (PHP)</label>
+        <input type="number" name="budget" class="form-control" placeholder="0">
+    </div>
 
     <button type="submit" class="btn btn-primary w-100">Create Plan</button>
 </form>
 </main>
+
 <script>
     const selector = document.getElementById('postType');
     const budgetField = document.getElementById('budgetField');
 
+    // Show budget field if 'itinerary' is selected (handles initial load too)
+    if(selector.value === 'itinerary') budgetField.style.display = 'block';
+
     selector.addEventListener('change', () => {
-        if(selector.value === 'itinerary') {
-            budgetField.style.display = 'block';
-        } else {
-            budgetField.style.display = 'none';
-        }
+        budgetField.style.display = (selector.value === 'itinerary') ? 'block' : 'none';
     });
 </script>
 <%- include('partials/footer') %>

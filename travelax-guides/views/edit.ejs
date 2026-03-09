@@ -4,7 +4,7 @@
 <div class="container my-5">
     <div class="col-md-8 mx-auto">
         <h2 class="fw-bold mb-4">Edit Your Trip Plan</h2>
-        <form action="/destinations/update/<%= place._id %>" method="POST" class="p-4 border rounded-4 bg-white shadow-sm">
+        <form action="/destinations/update/<%= place._id %>" method="POST" enctype="multipart/form-data" class="p-4 border rounded-4 bg-white shadow-sm">
             
             <div class="mb-3">
                 <label class="form-label fw-bold">Trip Name</label>
@@ -30,8 +30,13 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label fw-bold">Image URL</label>
-                <input type="text" name="image" class="form-control" value="<%= place.image %>">
+                <label class="form-label fw-bold">Trip Photo</label>
+                <div class="mb-2">
+                    <img src="<%= place.image %>" alt="Current image" class="rounded shadow-sm" style="width: 150px; height: 100px; object-fit: cover;">
+                    <p class="small text-muted">Current Photo</p>
+                </div>
+                <input type="file" name="imageFile" class="form-control" accept="image/*">
+                <small class="text-muted">Upload a new photo only if you want to change it.</small>
             </div>
 
             <div class="mb-3">

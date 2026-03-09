@@ -1,23 +1,34 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand h1" href="/">Travelax Guides</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-    <li class="nav-item">
-        <a class="nav-link active" href="/">Explore</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/my-plans">My Planner</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-primary fw-bold" href="/add">Plan a Trip</a>
-    </li>
-</ul>
-            </div>
-        </div>
+        <a class="navbar-brand" href="/">Travelax</a>
+
+<div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        
+        <% if (currentUser) { %>
+            <li class="nav-item"><a class="nav-link" href="/destinations/new">Add Destination</a></li>
+        <% } %>
+    </ul>
+
+    <ul class="navbar-nav ms-auto">
+        <% if (!currentUser) { %>
+            <li class="nav-item">
+                <a class="btn btn-primary" href="/auth/google">Login with Google</a>
+            </li>
+        <% } else { %>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userMenu" data-bs-toggle="dropdown">
+                    <img src="<%= currentUser.avatar %>" width="30" height="30" class="rounded-circle me-2" alt="profile">
+                    <%= currentUser.displayName %> 
+                    <span class="badge bg-secondary ms-2"><%= currentUser.role %></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item text-danger" href="/logout">Logout</a></li>
+                </ul>
+            </li>
+        <% } %>
+    </ul>
+</div>
     </nav>
 </header>

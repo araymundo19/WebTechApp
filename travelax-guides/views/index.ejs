@@ -20,8 +20,15 @@
                                 <img src="<%= place.image && place.image.trim() !== '' ? place.image : '/images/placeholder.png' %>" 
                                      class="card-img-top" style="height:220px; object-fit:cover;" alt="<%= place.name %>">
                                 <span class="badge bg-dark position-absolute top-0 start-0 m-3 shadow-sm">
-                                    <%= place.region %>
+                                <%= place.region %>
+                            </span>
+
+                            <div class="position-absolute top-0 end-0 m-3">
+                                <span class="badge shadow-sm" 
+                                style="background: linear-gradient(45deg, #FFD700, #FFA500); color: #000; border: 1px solid #B8860B; font-weight: bold;">
+                                <i class="bi bi-patch-check-fill me-1"></i>Verified Guide
                                 </span>
+                            </div>
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title fw-bold"><%= place.name %></h5>
@@ -49,56 +56,78 @@
     <hr class="my-5">
 
     <div>
-        <div class="d-flex justify-content-between align-items-end mb-4 bg-light p-4 rounded-3 border shadow-sm">
-            <div>
-                <h2 class="fw-bold mb-1">Public Itineraries</h2>
-                <p class="text-muted mb-0">Smarter trip plans shared by the community.</p>
-            </div>
-            <a href="/add" class="btn btn-primary px-4 py-2 shadow-sm">
-                <i class="bi bi-plus-circle me-2"></i>Start Planning
-            </a>
+    <div class="d-flex justify-content-between align-items-end mb-4 bg-light p-4 rounded-3 border shadow-sm">
+        <div>
+            <h2 class="fw-bold mb-1">Itineraries</h2>
+            <p class="text-muted mb-0">Community plans and your private trips.</p>
         </div>
+        <a href="/add" class="btn btn-primary px-4 py-2 shadow-sm">
+            <i class="bi bi-plus-circle me-2"></i>Start Planning
+        </a>
+    </div>
 
-        <div class="row">
-            <% const publicItinerary = places.filter(p => p.type === 'itinerary' && p.visibility === 'public'); %>
-            <% if(publicItinerary.length > 0) { %>
-                <% publicItinerary.forEach(plan => { %>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 border-0 shadow-sm">
-                            <div class="position-relative">
-                                <img src="<%= plan.image && plan.image.trim() !== '' ? plan.image : '/images/placeholder.png' %>" 
-                                     class="card-img-top" style="height:200px; object-fit:cover;" alt="<%= plan.name %>">
-                                <span class="badge bg-success position-absolute top-0 start-0 m-3 shadow-sm">
-                                    <%= plan.region %>
-                                </span>
+    <div class="row">
+        <% const myItineraries = places.filter(p => { 
+            const isItinerary = p.type === 'itinerary';
+            const isPublic = p.visibility === 'public';
+            const isMine = currentUser && p.author && p.author.id.equals(currentUser._id);
+            return isItinerary && (isPublic || isMine);
+        }); %>
+
+        <% if(myItineraries.length > 0) { %>
+            <% myItineraries.forEach(plan => { %>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="position-relative">
+                            <img src="<%= plan.image && plan.image.trim() !== '' ? plan.image : '/images/placeholder.png' %>" 
+                                 class="card-img-top" style="height:200px; object-fit:cover;" alt="<%= plan.name %>">
+                            
+                            <span class="badge bg-success position-absolute top-0 start-0 m-3 shadow-sm">
+                                <%= plan.region %>
+                            </span>
+
+                            <div class="position-absolute top-0 end-0 m-2 d-flex flex-column gap-1">
+                                <% if (plan.visibility === 'private') { %>
+                                    <span class="badge bg-dark text-white shadow-sm border border-secondary" style="opacity: 0.9;">
+                                        <i class="bi bi-lock-fill"></i> Private
+                                    </span>
+                                <% } else { %>
+                                    <span class="badge bg-info text-dark shadow-sm">
+                                        <i class="bi bi-globe-americas"></i> Public
+                                    </span>
+                                <% } %>
                             </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title fw-bold"><%= plan.name %></h5>
-                                
-                                <div class="mb-3">
-                                    <% if(plan.countries && plan.countries.length > 0) { %>
-                                        <% plan.countries.forEach(country => { %>
-                                            <span class="badge rounded-pill bg-light text-dark border small"><%= country %></span>
-                                        <% }) %>
-                                    <% } %>
-                                </div>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold"><%= plan.name %></h5>
+                            
+                            <div class="mb-3">
+                                <% if(plan.countries && plan.countries.length > 0) { %>
+                                    <% plan.countries.forEach(country => { %>
+                                        <span class="badge rounded-pill bg-light text-dark border small"><%= country %></span>
+                                    <% }) %>
+                                <% } %>
+                            </div>
 
-                                <p class="card-text text-muted small flex-grow-1"><%= plan.description %></p>
+                            <p class="card-text text-muted small flex-grow-1"><%= plan.description %></p>
+                            
+                            <div class="mt-3 pt-3 border-top d-flex justify-content-between align-items-center">
+                                <a href="/destinations/<%= plan._id %>" class="btn btn-sm btn-link p-0 text-decoration-none fw-bold text-success">View Details</a>
                                 
-                                <div class="mt-3 pt-3 border-top d-flex justify-content-between align-items-center">
-                                    <a href="/destinations/<%= plan._id %>" class="btn btn-sm btn-link p-0 text-decoration-none fw-bold text-success">View Details</a>
-                                    <div class="btn-group">
+                                <div class="btn-group">
+                                    <% if (currentUser && ((plan.author && plan.author.id.equals(currentUser._id)) || currentUser.role === 'admin')) { %>
                                         <a href="/destinations/edit/<%= plan._id %>" class="btn btn-sm btn-outline-secondary">Edit</a>
                                         <form action="/destinations/delete/<%= plan._id %>" method="POST" class="d-inline">
                                             <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this plan?')">Delete</button>
                                         </form>
-                                    </div>
+                                    <% } %>
                                 </div>
                             </div>
                         </div>
                     </div>
-                <% }) %>
-            <% } else { %>
+                </div>
+            <% }) %>
+        <% } else { %>
                 <div class="col-12 text-center py-5 bg-light rounded border-dashed">
                     <p class="text-muted mb-0">No public plans yet. Be the first to share one!</p>
                 </div>

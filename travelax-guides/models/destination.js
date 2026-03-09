@@ -29,7 +29,15 @@ const destinationSchema = new mongoose.Schema({
     },
     
     budget: { type: Number, default: 0 },
-    createdAt: { type: Date, default: Date.now }
+    createdAt: { type: Date, default: Date.now },
+
+    author: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "UserAccount"
+        },
+        username: String
+    }
 });
 
 module.exports = mongoose.model('Destination', destinationSchema);

@@ -9,8 +9,14 @@
         <label class="form-label fw-bold">Post Type</label>
         <select name="type" class="form-select" id="postType">
             <option value="itinerary">Travel Itinerary</option>
-            <option value="guide" disabled>Travel Guide (Admin Only)</option>
+            
+            <option value="guide" <%= (currentUser && currentUser.role === 'admin') ? '' : 'disabled' %>>
+                Travel Guide <%= (currentUser && currentUser.role === 'admin') ? '(Admin Verified)' : '(Admin Only)' %>
+            </option>
         </select>
+        <% if (!currentUser || currentUser.role !== 'admin') { %>
+            <small class="text-muted text-italic">Only verified Admins can create Expert Travel Guides.</small>
+        <% } %>
     </div>
 
     <div class="mb-3" id="visibilitySection">
@@ -75,10 +81,11 @@
     const budgetField = document.getElementById('budgetField');
 
     // Show budget field if 'itinerary' is selected (handles initial load too)
-    if(selector.value === 'itinerary') budgetField.style.display = 'block';
-
-    selector.addEventListener('change', () => {
+    function toggleBudget() {
         budgetField.style.display = (selector.value === 'itinerary') ? 'block' : 'none';
-    });
+    }
+
+    toggleBudget();
+    selector.addEventListener('change', toggleBudget);
 </script>
 <%- include('partials/footer') %>

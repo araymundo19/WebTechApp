@@ -72,16 +72,21 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+passport.use(UserAccount.createStrategy());
+
 // Passport Logic
-passport.serializeUser((user, done) => done(null, user.id));
-passport.deserializeUser(async (id, done) => {
-    try {
-        const user = await UserAccount.findById(id);
-        done(null, user);
-    } catch (err) {
-        done(err, null);
-    }
-});
+passport.serializeUser(UserAccount.serializeUser());
+passport.deserializeUser(UserAccount.deserializeUser());
+
+
+// Login Using Seeded Accounts (Local Strategy)
+app.post('/login', passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/',
+    failureFlash: false 
+}));
+
+
 
 // Google OAuth Strategy
 passport.use(new GoogleStrategy({
@@ -94,6 +99,7 @@ passport.use(new GoogleStrategy({
         if (!user) {
             user = await UserAccount.create({
                 googleId: profile.id,
+                username: profile.emails[0].value,
                 displayName: profile.displayName,
                 email: profile.emails[0].value,
                 avatar: profile.photos[0].value
@@ -329,4 +335,5 @@ app.use((err, req, res, next) => {
 });
 
 // START SERVER
-app.listen(3000, () => console.log("🚀 Server running at http://localhost:3000"));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

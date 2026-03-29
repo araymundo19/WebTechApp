@@ -23,6 +23,7 @@ const UserAccount = require('./models/UserAccount');
 
 // App Initialization
 const app = express();
+app.set('trust proxy', 1);
 
 // helmet.js configuration (optional, but recommended for better security)
 app.use(helmet({
@@ -92,7 +93,8 @@ app.post('/login', passport.authenticate('local', {
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "/auth/google/callback"
+    callbackURL: "/auth/google/callback",
+    proxy: true
 }, async (accessToken, refreshToken, profile, done) => {
     try {
         let user = await UserAccount.findOne({ googleId: profile.id });

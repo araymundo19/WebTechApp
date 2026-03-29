@@ -1,0 +1,33 @@
+<ul class="navbar-nav ms-auto">
+    <% if(!currentUser) { %>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle btn btn-outline-primary btn-sm px-3 me-2" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown">
+                Login
+            </a>
+            <div class="dropdown-menu dropdown-menu-end p-4 shadow" style="width: 250px;">
+                <form action="/login" method="POST">
+                    <div class="mb-2">
+                        <label class="small fw-bold">Username</label>
+                        <input type="text" name="username" class="form-control form-control-sm" placeholder="admin">
+                    </div>
+                    <div class="mb-3">
+                        <label class="small fw-bold">Password</label>
+                        <input type="password" name="password" class="form-control form-control-sm" placeholder="admin">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm w-100">Sign In</button>
+                </form>
+                <div class="dropdown-divider"></div>
+                <a class="btn btn-outline-danger btn-sm w-100" href="/auth/google">
+                    <i class="bi bi-google"></i> Google Login
+                </a>
+            </div>
+        </li>
+    <% } else { %>
+        <li class="nav-item">
+            <span class="nav-link text-dark">Welcome, <strong><%= currentUser.displayName || currentUser.username %></strong></span>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link btn btn-link text-danger" href="/logout">Logout</a>
+        </li>
+    <% } %>
+</ul>

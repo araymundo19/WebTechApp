@@ -12,23 +12,40 @@
     </ul>
 
     <ul class="navbar-nav ms-auto">
-        <% if (!currentUser) { %>
-            <li class="nav-item">
-                <a class="btn btn-primary" href="/auth/google">Login with Google</a>
-            </li>
-        <% } else { %>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userMenu" data-bs-toggle="dropdown">
-                    <img src="<%= currentUser.avatar %>" width="30" height="30" class="rounded-circle me-2" alt="profile">
-                    <%= currentUser.displayName %> 
-                    <span class="badge bg-secondary ms-2"><%= currentUser.role %></span>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item text-danger" href="/logout">Logout</a></li>
-                </ul>
-            </li>
-        <% } %>
-    </ul>
+    <% if(!currentUser) { %>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle btn btn-outline-primary btn-sm px-3" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Login
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end p-3 shadow" style="width: 250px;">
+                <form action="/login" method="POST">
+                    <div class="mb-2">
+                        <label class="form-label small fw-bold">Username</label>
+                        <input type="text" name="username" class="form-control form-control-sm" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Password</label>
+                        <input type="password" name="password" class="form-control form-control-sm" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm w-100">Sign In</button>
+                </form>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <a class="btn btn-outline-danger btn-sm w-100" href="/auth/google">
+                        <i class="bi bi-google"></i> Google Login
+                    </a>
+                </li>
+            </ul>
+        </li>
+    <% } else { %>
+        <li class="nav-item me-3">
+            <span class="nav-link">Hi, <strong><%= currentUser.username || currentUser.displayName %></strong></span>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link btn btn-sm btn-link text-danger" href="/logout">Logout</a>
+        </li>
+    <% } %>
+</ul>
 </div>
     </nav>
 </header>
